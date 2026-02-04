@@ -1,0 +1,16 @@
+/target
+result
+.direnv/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.engram*
+rust-analyzer/
+*.local
+.env
+!.env.example
+coverage/
