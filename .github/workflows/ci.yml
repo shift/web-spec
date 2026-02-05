@@ -21,25 +21,10 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Run library tests
-        run: cargo test --lib
+      - name: Run all tests
+        run: cargo test
 
-      - name: Run integration tests
-        run: |
-          cargo test --test bdd_integration
-          cargo test --test hacker_news_bdd
-          cargo test --test generic_steps
-
-      - name: Run CLI integration tests
-        run: cargo test --test cli_integration
-
-      - name: Run CLI edge case tests
-        run: cargo test --test cli_edge_cases
-
-      - name: Run comprehensive BDD tests
-        run: cargo test --test bdd_comprehensive
-
-      - name: Check code formatting
+      - name: Check formatting
         run: cargo fmt --all --check
 
       - name: Run clippy
