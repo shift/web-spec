@@ -1,9 +1,9 @@
-use web_spec::{Web2Markdown, BrowserType, Automation};
+use web_spec::{WebSpec, BrowserType, Automation};
 use anyhow::Result;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let converter = Web2Markdown::new();
+    let converter = WebSpec::new();
     
     let url = "https://example.com";
     println!("Converting {} to markdown...", url);
