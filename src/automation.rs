@@ -40,7 +40,8 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn click(&self, selector: &str) -> Result<()> {
         let page = self.page()?;
-        let script = format!("document.querySelector('{}').click()", selector.replace("'", "\\'"));
+        let escaped_selector = selector.replace('\\', "\\\\").replace('\'', "\\'");
+        let script = format!("document.querySelector('{}').click()", escaped_selector);
         page.evaluate(script.as_str()).await?;
         Ok(())
     }
@@ -56,10 +57,11 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn type_text(&self, selector: &str, text: &str) -> Result<()> {
         let page = self.page()?;
-        let escaped_text = text.replace("'", "\\'");
+        let escaped_selector = selector.replace('\\', "\\\\").replace('\'', "\\'");
+        let escaped_text = text.replace('\\', "\\\\").replace('\'', "\\'");
         let script = format!(
             "document.querySelector('{}').value = '{}'",
-            selector.replace("'", "\\'"),
+            escaped_selector,
             escaped_text
         );
         page.evaluate(script.as_str()).await?;
