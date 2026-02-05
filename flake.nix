@@ -17,7 +17,7 @@
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "rust-analyzer" ];
         };
-
+        
         # Build dependencies (libraries needed for linking)
         buildDeps = with pkgs; [
             openssl
@@ -29,12 +29,6 @@
             chromium
             chromedriver
         ];
-
-        # Build the package using cargo2nix
-        packages.default = pkgs.rustPlatform.packages.rustPlatform.cargo2nix.buildPackage {
-          src = ./.;
-          inherit pkgs buildDeps runtimeDeps;
-        };
       in
       {
         # 1. The Package (nix build)

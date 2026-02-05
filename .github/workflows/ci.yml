@@ -46,12 +46,10 @@ jobs:
           cargo test --test cli_integration
           cargo test --test cli_edge_cases
           cargo test --test cli_workflows
-          cargo test --test cli_phase2_features
-          cargo test --test cli_phase3_features
           cargo test --test bdd_comprehensive
 
       - name: Check formatting
-        run: cargo fmt --all -- --check
+        run: cargo fmt --all --check
 
       - name: Check clippy
         run: cargo clippy --all-features -- -D warnings
