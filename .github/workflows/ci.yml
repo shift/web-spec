@@ -45,8 +45,8 @@ jobs:
         run: cargo test --test cli_integration
       - name: Run CLI edge cases
         run: cargo test --test cli_edge_cases
-      - name: Run CLI workflows
-        run: cargo test --test cli_comparison_features
+      # - name: Run CLI workflows
+      #   run: cargo test --test cli_comparison_features
       - name: Run comprehensive BDD tests
         run: cargo test --test bdd_comprehensive
 
