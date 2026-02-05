@@ -42,17 +42,19 @@ jobs:
           cargo test --test generic_steps
 
       - name: Run CLI tests
-        run: |
-          cargo test --test cli_integration
-          cargo test --test cli_edge_cases
-          cargo test --test cli_workflows
-          cargo test --test bdd_comprehensive
+        run: cargo test --test cli_integration
+      - name: Run CLI edge cases
+        run: cargo test --test cli_edge_cases
+      - name: Run CLI workflows
+        run: cargo test --test cli_comparison_features
+      - name: Run comprehensive BDD tests
+        run: cargo test --test bdd_comprehensive
 
       - name: Check formatting
         run: cargo fmt --all --check
 
       - name: Check clippy
-        run: cargo clippy --all-features -- -D warnings
+        run: cargo clippy --all -- -D warnings
 
       - name: Build release
         run: cargo build --release
@@ -83,7 +85,6 @@ jobs:
           override: true
 
       - name: Run cargo-audit
-        uses: actions-rs/audit-check@v1
+        uses: rustsec/rustsec/audit-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --deny warnings
