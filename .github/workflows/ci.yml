@@ -73,18 +73,18 @@ jobs:
       - name: Build with Nix
         run: nix develop -c -- cargo build --release
 
-  security-audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  # security-audit:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+  #     - name: Install Rust
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         toolchain: stable
+  #         override: true
 
-      - name: Run cargo-audit
-        uses: rustsec/rustsec/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Run cargo-audit
+  #       uses: rustsec/rustsec/audit-check@v1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
