@@ -161,7 +161,7 @@ pub fn to_text_output(comparison: &ComparisonResult) -> String {
 mod tests {
     use super::*;
     use crate::execution::{
-        compare_results, ExecutionResult, ExecutionSummary, FeatureInfo, ScenarioResult, StepResult,
+        ExecutionResult, ExecutionSummary, FeatureInfo, ScenarioResult, StepResult, compare_results,
     };
 
     fn create_test_result(name: &str, status: &str, duration_ms: u64) -> ExecutionResult {

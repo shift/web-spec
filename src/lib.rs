@@ -1,20 +1,19 @@
-pub mod browser;
 pub mod automation;
-pub mod converter;
-pub mod error;
-pub mod discovery;
-pub mod validation;
-pub mod execution;
+pub mod browser;
 pub mod cli;
+pub mod converter;
+pub mod discovery;
+pub mod error;
+pub mod execution;
+pub mod validation;
 
-pub use browser::{Browser, BrowserType};
 pub use automation::Automation;
+pub use browser::{Browser, BrowserType};
 pub use converter::Converter;
-pub use error::{Result, WebSpecError};
 pub use discovery::{StepCatalog, catalog::build_step_catalog};
-pub use validation::{validate_feature, ValidationResult};
+pub use error::{Result, WebSpecError};
 pub use execution::{ExecutionResult, ExecutionSummary, ScenarioResult, StepResult};
-
+pub use validation::{ValidationResult, validate_feature};
 
 #[derive(Debug, Clone)]
 pub struct WebSpec {

@@ -128,9 +128,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "attribute_should_exist".to_string(),
         pattern: r#"the "([^"]+)" attribute of "([^"]+)" should exist"#.to_string(),
-        aliases: vec![
-            r#"the element "([^"]+)" should have "([^"]+)" attribute"#.to_string(),
-        ],
+        aliases: vec![r#"the element "([^"]+)" should have "([^"]+)" attribute"#.to_string()],
         category: "Verification".to_string(),
         description: "Verify element attribute exists".to_string(),
         parameters: vec![],
@@ -449,9 +447,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "double_click".to_string(),
         pattern: r#"I double click on "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I double-click "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I double-click "([^"]+)""#.to_string()],
         category: "Interaction".to_string(),
         description: "Double-click an element".to_string(),
         parameters: vec![],
@@ -481,9 +477,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "drag_and_drop".to_string(),
         pattern: r#"I drag "([^"]+)" to "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I drag element "([^"]+)" and drop it on "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I drag element "([^"]+)" and drop it on "([^"]+)""#.to_string()],
         category: "Interaction".to_string(),
         description: "Drag an element and drop it on another".to_string(),
         parameters: vec![],
@@ -578,9 +572,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "extract_attribute_from_element".to_string(),
         pattern: r#"I extract "([^"]+)" from "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I extract the "([^"]+)" attribute from "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I extract the "([^"]+)" attribute from "([^"]+)""#.to_string()],
         category: "Other".to_string(),
         description: "Step: extract_attribute_from_element".to_string(),
         parameters: vec![],
@@ -600,9 +592,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "extract_table".to_string(),
         pattern: r#"I extract table data from "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I extract the table "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I extract the table "([^"]+)""#.to_string()],
         category: "Other".to_string(),
         description: "Step: extract_table".to_string(),
         parameters: vec![],
@@ -899,9 +889,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "press_enter".to_string(),
         pattern: r#"I press the Enter key"#.to_string(),
-        aliases: vec![
-            r#"I press Enter"#.to_string(),
-        ],
+        aliases: vec![r#"I press Enter"#.to_string()],
         category: "Input".to_string(),
         description: "Press the Enter key".to_string(),
         parameters: vec![],
@@ -911,9 +899,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "press_escape".to_string(),
         pattern: r#"I press Escape key"#.to_string(),
-        aliases: vec![
-            r#"I press Escape"#.to_string(),
-        ],
+        aliases: vec![r#"I press Escape"#.to_string()],
         category: "Input".to_string(),
         description: "Press the Escape key".to_string(),
         parameters: vec![],
@@ -933,9 +919,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "press_tab".to_string(),
         pattern: r#"I press Tab key"#.to_string(),
-        aliases: vec![
-            r#"I press Tab"#.to_string(),
-        ],
+        aliases: vec![r#"I press Tab"#.to_string()],
         category: "Input".to_string(),
         description: "Press the Tab key".to_string(),
         parameters: vec![],
@@ -985,9 +969,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "retry_click".to_string(),
         pattern: r#"I retry clicking "([^"]+)" up to (\d+) times"#.to_string(),
-        aliases: vec![
-            r#"I retry "([^"]+)" (\d+) times"#.to_string(),
-        ],
+        aliases: vec![r#"I retry "([^"]+)" (\d+) times"#.to_string()],
         category: "Other".to_string(),
         description: "Step: retry_click".to_string(),
         parameters: vec![],
@@ -1030,9 +1012,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "screenshot".to_string(),
         pattern: r#"I take a screenshot "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I capture screenshot "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I capture screenshot "([^"]+)""#.to_string()],
         category: "Extraction".to_string(),
         description: "Take a screenshot".to_string(),
         parameters: vec![],
@@ -1295,9 +1275,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_be_visible".to_string(),
         pattern: r#"the element "([^"]+)" should be visible"#.to_string(),
-        aliases: vec![
-            r#""([^"]+)" should be visible"#.to_string(),
-        ],
+        aliases: vec![r#""([^"]+)" should be visible"#.to_string()],
         category: "Verification".to_string(),
         description: "Verify element is visible".to_string(),
         parameters: vec![],
@@ -1337,9 +1315,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_not_be_visible".to_string(),
         pattern: r#"the element "([^"]+)" should not be visible"#.to_string(),
-        aliases: vec![
-            r#""([^"]+)" should not be visible"#.to_string(),
-        ],
+        aliases: vec![r#""([^"]+)" should not be visible"#.to_string()],
         category: "Verification".to_string(),
         description: "Verify element is not visible".to_string(),
         parameters: vec![],
@@ -1369,9 +1345,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_not_see".to_string(),
         pattern: r#"I should not see "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I should not see the element "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I should not see the element "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify an element is not visible".to_string(),
         parameters: vec![],
@@ -1381,9 +1355,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_not_see_text".to_string(),
         pattern: r#"I should not see text "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"the page should not contain "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"the page should not contain "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify text is not on page".to_string(),
         parameters: vec![],
@@ -1403,9 +1375,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_see".to_string(),
         pattern: r#"I should see "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I should see the element "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I should see the element "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify an element is visible".to_string(),
         parameters: vec![],
@@ -1485,9 +1455,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "should_see_text".to_string(),
         pattern: r#"I should see text "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"the page should contain "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"the page should contain "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify text is present on page".to_string(),
         parameters: vec![],
@@ -1540,9 +1508,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "submit_form".to_string(),
         pattern: r#"I submit the form "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"I submit "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"I submit "([^"]+)""#.to_string()],
         category: "Input".to_string(),
         description: "Submit a form".to_string(),
         parameters: vec![],
@@ -1582,9 +1548,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "text_should_be".to_string(),
         pattern: r#"the text of "([^"]+)" should be "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"the text of "([^"]+)" should equal "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"the text of "([^"]+)" should equal "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify element text equals value".to_string(),
         parameters: vec![],
@@ -1754,9 +1718,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "url_should_be".to_string(),
         pattern: r#"the URL should be "([^"]+)""#.to_string(),
-        aliases: vec![
-            r#"the current URL should be "([^"]+)""#.to_string(),
-        ],
+        aliases: vec![r#"the current URL should be "([^"]+)""#.to_string()],
         category: "Verification".to_string(),
         description: "Verify current URL".to_string(),
         parameters: vec![],
@@ -1859,9 +1821,7 @@ pub fn build_step_catalog() -> StepCatalog {
     catalog.add_step(StepInfo {
         id: "wait_hidden".to_string(),
         pattern: r#"I wait for element "([^"]+)" to be hidden"#.to_string(),
-        aliases: vec![
-            r#"I wait for "([^"]+)" to disappear"#.to_string(),
-        ],
+        aliases: vec![r#"I wait for "([^"]+)" to disappear"#.to_string()],
         category: "Waiting".to_string(),
         description: "Wait for an element to become hidden".to_string(),
         parameters: vec![],

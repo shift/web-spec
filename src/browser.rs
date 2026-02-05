@@ -2,9 +2,9 @@ use crate::error::{Result, WebSpecError};
 use thirtyfour::prelude::*;
 
 #[cfg(feature = "chromiumoxide-backend")]
-use chromiumoxide::{Browser as ChromiumBrowser, BrowserConfig, Page};
-#[cfg(feature = "chromiumoxide-backend")]
 use chromiumoxide::browser::HeadlessMode;
+#[cfg(feature = "chromiumoxide-backend")]
+use chromiumoxide::{Browser as ChromiumBrowser, BrowserConfig, Page};
 #[cfg(feature = "chromiumoxide-backend")]
 use futures_util::StreamExt;
 
@@ -62,10 +62,10 @@ impl Browser {
             .no_sandbox()
             .headless_mode(HeadlessMode::New)
             .build()?;
-        
+
         eprintln!("Launching chromium browser...");
         let (chromium, mut handler) = ChromiumBrowser::launch(config).await?;
-        
+
         eprintln!("Starting event handler...");
         let handler_task = tokio::spawn(async move {
             eprintln!("Event handler loop started");
@@ -77,7 +77,7 @@ impl Browser {
 
         eprintln!("Creating new page...");
         let page = chromium.new_page("about:blank").await?;
-        
+
         eprintln!("Page created successfully");
         Ok(Self {
             _browser_type: BrowserType::Chromiumoxide,
@@ -101,10 +101,10 @@ impl Browser {
             .headless_mode(HeadlessMode::False)
             .window_size(1920, 1080)
             .build()?;
-        
+
         eprintln!("Launching chromium browser...");
         let (chromium, mut handler) = ChromiumBrowser::launch(config).await?;
-        
+
         eprintln!("Starting event handler...");
         let handler_task = tokio::spawn(async move {
             eprintln!("Event handler loop started");
@@ -116,7 +116,7 @@ impl Browser {
 
         eprintln!("Creating new page...");
         let page = chromium.new_page("about:blank").await?;
-        
+
         eprintln!("Page created successfully");
         Ok(Self {
             _browser_type: BrowserType::Chromiumoxide,
@@ -172,14 +172,20 @@ impl Browser {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn get_html(&self) -> Result<String> {
         if let Some(driver) = &self.driver {
-            let result = driver.execute("return document.documentElement.outerHTML;", Vec::new()).await?;
-            let html = result.json()
+            let result = driver
+                .execute("return document.documentElement.outerHTML;", Vec::new())
+                .await?;
+            let html = result
+                .json()
                 .as_str()
                 .ok_or_else(|| WebSpecError::Browser("Failed to get HTML".to_string()))?
                 .to_string();
             Ok(html)
         } else if let Some(page) = &self.chromium_page {
-            let html = page.evaluate("document.documentElement.outerHTML").await?.into_value()?;
+            let html = page
+                .evaluate("document.documentElement.outerHTML")
+                .await?
+                .into_value()?;
             Ok(html)
         } else {
             Err(WebSpecError::Browser("No driver initialized".to_string()))
@@ -189,8 +195,11 @@ impl Browser {
     #[cfg(not(feature = "chromiumoxide-backend"))]
     pub async fn get_html(&self) -> Result<String> {
         if let Some(driver) = &self.driver {
-            let result = driver.execute("return document.documentElement.outerHTML;", Vec::new()).await?;
-            let html = result.json()
+            let result = driver
+                .execute("return document.documentElement.outerHTML;", Vec::new())
+                .await?;
+            let html = result
+                .json()
                 .as_str()
                 .ok_or_else(|| WebSpecError::Browser("Failed to get HTML".to_string()))?
                 .to_string();
@@ -241,6 +250,9 @@ mod tests {
     #[ignore]
     async fn test_chromiumoxide_browser_creation() {
         let result = Browser::new_chromiumoxide().await;
-        assert!(result.is_ok(), "Should successfully create Chromiumoxide browser");
+        assert!(
+            result.is_ok(),
+            "Should successfully create Chromiumoxide browser"
+        );
     }
 }

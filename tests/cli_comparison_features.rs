@@ -1,4 +1,4 @@
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 /// CLI tests for result comparison feature
 use std::fs;
 use std::process::Command;

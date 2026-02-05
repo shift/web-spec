@@ -8,7 +8,7 @@ use chromiumoxide::page::ScreenshotParams;
 use chromiumoxide::Page;
 
 #[cfg(feature = "webdriver")]
-use thirtyfour::{prelude::*, WebElement};
+use thirtyfour::{WebElement, prelude::*};
 
 pub struct Automation<'a> {
     browser: &'a mut Browser,
@@ -25,9 +25,9 @@ impl<'a> Automation<'a> {
 
     #[cfg(feature = "chromiumoxide-backend")]
     fn page(&self) -> Result<&Page> {
-        self.browser
-            .chromium_page()
-            .ok_or_else(|| WebSpecError::Automation("No chromiumoxide page initialized".to_string()))
+        self.browser.chromium_page().ok_or_else(|| {
+            WebSpecError::Automation("No chromiumoxide page initialized".to_string())
+        })
     }
 
     #[cfg(feature = "webdriver")]
@@ -61,8 +61,7 @@ impl<'a> Automation<'a> {
         let escaped_text = text.replace('\\', "\\\\").replace('\'', "\\'");
         let script = format!(
             "document.querySelector('{}').value = '{}'",
-            escaped_selector,
-            escaped_text
+            escaped_selector, escaped_text
         );
         page.evaluate(script.as_str()).await?;
         Ok(())
@@ -131,7 +130,10 @@ impl<'a> Automation<'a> {
         let driver = self.driver()?;
         let element = driver
             .query(By::Css(selector))
-            .wait(std::time::Duration::from_millis(timeout_ms), std::time::Duration::from_millis(100))
+            .wait(
+                std::time::Duration::from_millis(timeout_ms),
+                std::time::Duration::from_millis(100),
+            )
             .first()
             .await
             .map_err(|_| WebSpecError::Timeout)?;
@@ -154,7 +156,10 @@ impl<'a> Automation<'a> {
         let driver = self.driver()?;
         let element = driver
             .query(By::Css(selector))
-            .wait(std::time::Duration::from_millis(timeout_ms), std::time::Duration::from_millis(100))
+            .wait(
+                std::time::Duration::from_millis(timeout_ms),
+                std::time::Duration::from_millis(100),
+            )
             .first()
             .await;
         Ok(element.is_ok())
@@ -209,14 +214,17 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn scroll_to_bottom(&self) -> Result<()> {
         let page = self.page()?;
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight)").await?;
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            .await?;
         Ok(())
     }
 
     #[cfg(feature = "webdriver")]
     pub async fn scroll_to_bottom(&self) -> Result<()> {
         let driver = self.driver()?;
-        driver.execute("window.scrollTo(0, document.body.scrollHeight);", vec![]).await?;
+        driver
+            .execute("window.scrollTo(0, document.body.scrollHeight);", vec![])
+            .await?;
         Ok(())
     }
 
@@ -249,27 +257,29 @@ impl<'a> Automation<'a> {
     pub async fn scroll_to_element(&self, selector: &str) -> Result<WebElement> {
         let driver = self.driver()?;
         let element = driver.find(By::Css(selector)).await?;
-        driver.execute(
-            "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
-            vec![serde_json::to_value(&element)?]
-        ).await?;
+        driver
+            .execute(
+                "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
+                vec![serde_json::to_value(&element)?],
+            )
+            .await?;
         Ok(element)
     }
 
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn scroll_by(&self, x: i64, y: i64) -> Result<()> {
         let page = self.page()?;
-        page.evaluate(format!("window.scrollBy({}, {})", x, y).as_str()).await?;
+        page.evaluate(format!("window.scrollBy({}, {})", x, y).as_str())
+            .await?;
         Ok(())
     }
 
     #[cfg(feature = "webdriver")]
     pub async fn scroll_by(&self, x: i64, y: i64) -> Result<()> {
         let driver = self.driver()?;
-        driver.execute(
-            &format!("window.scrollBy({}, {});", x, y),
-            vec![]
-        ).await?;
+        driver
+            .execute(&format!("window.scrollBy({}, {});", x, y), vec![])
+            .await?;
         Ok(())
     }
 
@@ -322,7 +332,10 @@ impl<'a> Automation<'a> {
         if let Some(attr) = value.as_str() {
             Ok(attr.trim().to_string())
         } else {
-            Err(WebSpecError::Automation(format!("Attribute '{}' not found", attribute)))
+            Err(WebSpecError::Automation(format!(
+                "Attribute '{}' not found",
+                attribute
+            )))
         }
     }
 
@@ -330,9 +343,9 @@ impl<'a> Automation<'a> {
     pub async fn get_attribute(&self, selector: &str, attribute: &str) -> Result<String> {
         let driver = self.driver()?;
         let element = driver.find(By::Css(selector)).await?;
-        let attr = element.attr(attribute).await?.ok_or_else(|| 
+        let attr = element.attr(attribute).await?.ok_or_else(|| {
             WebSpecError::Automation(format!("Attribute '{}' not found", attribute))
-        )?;
+        })?;
         Ok(attr)
     }
 
@@ -347,7 +360,9 @@ impl<'a> Automation<'a> {
         if let Some(html_str) = value.as_str() {
             Ok(html_str.to_string())
         } else {
-            Err(WebSpecError::Automation("Failed to convert HTML to string".to_string()))
+            Err(WebSpecError::Automation(
+                "Failed to convert HTML to string".to_string(),
+            ))
         }
     }
 
@@ -355,15 +370,19 @@ impl<'a> Automation<'a> {
     pub async fn get_html(&self, selector: &str) -> Result<String> {
         let driver = self.driver()?;
         let element = driver.find(By::Css(selector)).await?;
-        let html = driver.execute(
-            "return arguments[0].outerHTML;",
-            vec![serde_json::to_value(&element)?]
-        ).await?;
+        let html = driver
+            .execute(
+                "return arguments[0].outerHTML;",
+                vec![serde_json::to_value(&element)?],
+            )
+            .await?;
         let html_value = html.json();
         if let Some(html_str) = html_value.as_str() {
             Ok(html_str.to_string())
         } else {
-            Err(WebSpecError::Automation("Failed to convert HTML to string".to_string()))
+            Err(WebSpecError::Automation(
+                "Failed to convert HTML to string".to_string(),
+            ))
         }
     }
 
@@ -454,9 +473,9 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn get_all_links(&self) -> Result<Vec<String>> {
         let page = self.page()?;
-        let result = page.evaluate(
-            "Array.from(document.querySelectorAll('a[href]')).map(a => a.href)"
-        ).await?;
+        let result = page
+            .evaluate("Array.from(document.querySelectorAll('a[href]')).map(a => a.href)")
+            .await?;
         let value: serde_json::Value = result.into_value()?;
         if let Some(arr) = value.as_array() {
             let mut links = Vec::new();
@@ -487,9 +506,9 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn get_all_images(&self) -> Result<Vec<String>> {
         let page = self.page()?;
-        let result = page.evaluate(
-            "Array.from(document.querySelectorAll('img[src]')).map(img => img.src)"
-        ).await?;
+        let result = page
+            .evaluate("Array.from(document.querySelectorAll('img[src]')).map(img => img.src)")
+            .await?;
         let value: serde_json::Value = result.into_value()?;
         if let Some(arr) = value.as_array() {
             let mut images = Vec::new();
@@ -520,7 +539,10 @@ impl<'a> Automation<'a> {
     #[cfg(feature = "chromiumoxide-backend")]
     pub async fn get_all_headings(&self, level: u32) -> Result<Vec<String>> {
         let page = self.page()?;
-        let script = format!("Array.from(document.querySelectorAll('h{}')).map(h => h.textContent)", level);
+        let script = format!(
+            "Array.from(document.querySelectorAll('h{}')).map(h => h.textContent)",
+            level
+        );
         let result = page.evaluate(script.as_str()).await?;
         let value: serde_json::Value = result.into_value()?;
         if let Some(arr) = value.as_array() {
