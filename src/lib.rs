@@ -10,19 +10,18 @@ pub mod cli;
 pub use browser::{Browser, BrowserType};
 pub use automation::Automation;
 pub use converter::Converter;
-pub use error::{Result, Web2MarkdownError};
+pub use error::{Result, WebSpecError};
 pub use discovery::{StepCatalog, catalog::build_step_catalog};
 pub use validation::{validate_feature, ValidationResult};
 pub use execution::{ExecutionResult, ExecutionSummary, ScenarioResult, StepResult};
 
 
-
 #[derive(Debug, Clone)]
-pub struct Web2Markdown {
+pub struct WebSpec {
     browser_type: BrowserType,
 }
 
-impl Web2Markdown {
+impl WebSpec {
     pub fn new() -> Self {
         Self {
             browser_type: BrowserType::WebDriver,
@@ -37,17 +36,17 @@ impl Web2Markdown {
         let mut browser = Browser::new(self.browser_type.clone()).await?;
         browser.navigate_to(url).await?;
         browser.wait_for_load().await?;
-        
+
         let html = browser.get_html().await?;
-        
+
         let converter = Converter::new();
         let markdown = converter.convert(&html)?;
-        
+
         Ok(markdown)
     }
 }
 
-impl Default for Web2Markdown {
+impl Default for WebSpec {
     fn default() -> Self {
         Self::new()
     }

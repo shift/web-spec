@@ -1,9 +1,9 @@
 use thiserror::Error;
 
-pub type Result<T> = std::result::Result<T, Web2MarkdownError>;
+pub type Result<T> = std::result::Result<T, WebSpecError>;
 
 #[derive(Error, Debug)]
-pub enum Web2MarkdownError {
+pub enum WebSpecError {
     #[error("Browser error: {0}")]
     Browser(String),
 
@@ -27,23 +27,32 @@ pub enum Web2MarkdownError {
 
     #[error("Element not found")]
     NotFound,
+
+    #[error("Script execution error: {0}")]
+    Script(String),
 }
 
-impl From<String> for Web2MarkdownError {
+impl From<String> for WebSpecError {
     fn from(s: String) -> Self {
-        Web2MarkdownError::Browser(s)
+        WebSpecError::Browser(s)
     }
 }
 
 #[cfg(feature = "chromiumoxide-backend")]
-impl From<chromiumoxide::error::CdpError> for Web2MarkdownError {
+impl From<chromiumoxide::error::CdpError> for WebSpecError {
     fn from(e: chromiumoxide::error::CdpError) -> Self {
-        Web2MarkdownError::Browser(e.to_string())
+        WebSpecError::Browser(e.to_string())
     }
 }
 
-impl From<serde_json::Error> for Web2MarkdownError {
+impl From<serde_json::Error> for WebSpecError {
     fn from(e: serde_json::Error) -> Self {
-        Web2MarkdownError::Conversion(e.to_string())
+        WebSpecError::Conversion(e.to_string())
+    }
+}
+
+impl From<tokio::time::error::Elapsed> for WebSpecError {
+    fn from(_: tokio::time::error::Elapsed) -> Self {
+        WebSpecError::Timeout
     }
 }

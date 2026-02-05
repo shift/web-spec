@@ -1,4 +1,4 @@
-use crate::error::{Result, Web2MarkdownError};
+use crate::error::{Result, WebSpecError};
 use thirtyfour::prelude::*;
 
 #[cfg(feature = "chromiumoxide-backend")]
@@ -37,7 +37,7 @@ impl Browser {
             }
             #[cfg(feature = "chromiumoxide-backend")]
             BrowserType::Chromiumoxide => {
-                return Err(Web2MarkdownError::Browser(
+                return Err(WebSpecError::Browser(
                     "Chromiumoxide backend needs to be initialized with Browser::new_chromiumoxide()".to_string(),
                 ));
             }
@@ -134,7 +134,7 @@ impl Browser {
         } else if let Some(page) = &self.chromium_page {
             page.goto(url).await?;
         } else {
-            return Err(Web2MarkdownError::Browser("No driver initialized".to_string()));
+            return Err(WebSpecError::Browser("No driver initialized".to_string()));
         }
         Ok(())
     }
@@ -144,7 +144,7 @@ impl Browser {
         if let Some(driver) = &self.driver {
             driver.goto(url).await?;
         } else {
-            return Err(Web2MarkdownError::Browser("No driver initialized".to_string()));
+            return Err(WebSpecError::Browser("No driver initialized".to_string()));
         }
         Ok(())
     }
@@ -155,7 +155,7 @@ impl Browser {
             tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
             Ok(())
         } else {
-            Err(Web2MarkdownError::Browser("No driver initialized".to_string()))
+            Err(WebSpecError::Browser("No driver initialized".to_string()))
         }
     }
 
@@ -165,7 +165,7 @@ impl Browser {
             tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
             Ok(())
         } else {
-            Err(Web2MarkdownError::Browser("No driver initialized".to_string()))
+            Err(WebSpecError::Browser("No driver initialized".to_string()))
         }
     }
 
@@ -175,14 +175,14 @@ impl Browser {
             let result = driver.execute("return document.documentElement.outerHTML;", Vec::new()).await?;
             let html = result.json()
                 .as_str()
-                .ok_or_else(|| Web2MarkdownError::Browser("Failed to get HTML".to_string()))?
+                .ok_or_else(|| WebSpecError::Browser("Failed to get HTML".to_string()))?
                 .to_string();
             Ok(html)
         } else if let Some(page) = &self.chromium_page {
             let html = page.evaluate("document.documentElement.outerHTML").await?.into_value()?;
             Ok(html)
         } else {
-            Err(Web2MarkdownError::Browser("No driver initialized".to_string()))
+            Err(WebSpecError::Browser("No driver initialized".to_string()))
         }
     }
 
@@ -192,11 +192,11 @@ impl Browser {
             let result = driver.execute("return document.documentElement.outerHTML;", Vec::new()).await?;
             let html = result.json()
                 .as_str()
-                .ok_or_else(|| Web2MarkdownError::Browser("Failed to get HTML".to_string()))?
+                .ok_or_else(|| WebSpecError::Browser("Failed to get HTML".to_string()))?
                 .to_string();
             Ok(html)
         } else {
-            Err(Web2MarkdownError::Browser("No driver initialized".to_string()))
+            Err(WebSpecError::Browser("No driver initialized".to_string()))
         }
     }
 

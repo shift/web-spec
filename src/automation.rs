@@ -1,5 +1,5 @@
 use crate::browser::Browser;
-use crate::error::{Result, Web2MarkdownError};
+use crate::error::{Result, WebSpecError};
 
 #[cfg(feature = "chromiumoxide-backend")]
 use chromiumoxide::page::ScreenshotParams;
@@ -27,14 +27,14 @@ impl<'a> Automation<'a> {
     fn page(&self) -> Result<&Page> {
         self.browser
             .chromium_page()
-            .ok_or_else(|| Web2MarkdownError::Automation("No chromiumoxide page initialized".to_string()))
+            .ok_or_else(|| WebSpecError::Automation("No chromiumoxide page initialized".to_string()))
     }
 
     #[cfg(feature = "webdriver")]
     fn driver(&self) -> Result<&WebDriver> {
         self.browser
             .driver()
-            .ok_or_else(|| Web2MarkdownError::Automation("No WebDriver initialized".to_string()))
+            .ok_or_else(|| WebSpecError::Automation("No WebDriver initialized".to_string()))
     }
 
     #[cfg(feature = "chromiumoxide-backend")]
@@ -132,7 +132,7 @@ impl<'a> Automation<'a> {
             .wait(std::time::Duration::from_millis(timeout_ms), std::time::Duration::from_millis(100))
             .first()
             .await
-            .map_err(|_| Web2MarkdownError::Timeout)?;
+            .map_err(|_| WebSpecError::Timeout)?;
         Ok(element)
     }
 
@@ -320,7 +320,7 @@ impl<'a> Automation<'a> {
         if let Some(attr) = value.as_str() {
             Ok(attr.trim().to_string())
         } else {
-            Err(Web2MarkdownError::Automation(format!("Attribute '{}' not found", attribute)))
+            Err(WebSpecError::Automation(format!("Attribute '{}' not found", attribute)))
         }
     }
 
@@ -329,7 +329,7 @@ impl<'a> Automation<'a> {
         let driver = self.driver()?;
         let element = driver.find(By::Css(selector)).await?;
         let attr = element.attr(attribute).await?.ok_or_else(|| 
-            Web2MarkdownError::Automation(format!("Attribute '{}' not found", attribute))
+            WebSpecError::Automation(format!("Attribute '{}' not found", attribute))
         )?;
         Ok(attr)
     }
@@ -345,7 +345,7 @@ impl<'a> Automation<'a> {
         if let Some(html_str) = value.as_str() {
             Ok(html_str.to_string())
         } else {
-            Err(Web2MarkdownError::Automation("Failed to convert HTML to string".to_string()))
+            Err(WebSpecError::Automation("Failed to convert HTML to string".to_string()))
         }
     }
 
@@ -361,7 +361,7 @@ impl<'a> Automation<'a> {
         if let Some(html_str) = html_value.as_str() {
             Ok(html_str.to_string())
         } else {
-            Err(Web2MarkdownError::Automation("Failed to convert HTML to string".to_string()))
+            Err(WebSpecError::Automation("Failed to convert HTML to string".to_string()))
         }
     }
 
