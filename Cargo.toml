@@ -63,18 +63,10 @@ path = "tests/cli_integration.rs"
 name = "cli_edge_cases"
 path = "tests/cli_edge_cases.rs"
 
-[[test]]
-name = "cli_workflows"
-path = "tests/cli_comparison_features.rs"
+  [[test]]
+  name = "cli_workflows"
+  path = "tests/cli_comparison_features.rs"
 
-[[test]]
-name = "cli_phase2_features"
-path = "tests/cli_phase2_features.rs"
-
-[[test]]
-name = "cli_phase3_features"
-path = "tests/cli_phase3_features.rs"
-
-[[test]]
-name = "bdd_comprehensive"
-path = "tests/bdd_comprehensive.rs"
+  [[test]]
+  name = "bdd_comprehensive"
+  path = "tests/bdd_comprehensive.rs"
