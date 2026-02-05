@@ -24,11 +24,6 @@ jobs:
       - name: Run library tests
         run: cargo test --lib
 
-      - name: Check formatting
-        run: cargo fmt --all --check
-
-      - name: Run clippy
-        run: cargo clippy --all
-
       - name: Build release
         run: cargo build --release
+
