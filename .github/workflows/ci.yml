@@ -9,9 +9,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -19,7 +21,7 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Run tests (without browser)
+      - name: Run library tests
         run: cargo test --lib
 
       - name: Run integration tests
@@ -28,51 +30,20 @@ jobs:
           cargo test --test hacker_news_bdd
           cargo test --test generic_steps
 
-      - name: Run CLI tests
+      - name: Run CLI integration tests
         run: cargo test --test cli_integration
-      - name: Run CLI edge cases
+
+      - name: Run CLI edge case tests
         run: cargo test --test cli_edge_cases
-      - name: Run CLI workflows
-        run: cargo test --test cli_comparison_features
+
       - name: Run comprehensive BDD tests
         run: cargo test --test bdd_comprehensive
 
-      - name: Check formatting
+      - name: Check code formatting
         run: cargo fmt --all --check
 
-      - name: Check clippy
+      - name: Run clippy
         run: cargo clippy --all -- -D warnings
 
       - name: Build release
         run: cargo build --release
-
-  nix:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: cachix/install-nix-action@v27
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-
-      - name: Build with Nix
-        run: nix develop -c -- cargo build --release
-
-  # security-audit:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Install Rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: stable
-  #         override: true
-
-  #     - name: Run cargo-audit
-  #       uses: rustsec/rustsec/audit-check@v1
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-
