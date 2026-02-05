@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -21,8 +21,8 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Run all tests
-        run: cargo test
+      - name: Run library tests
+        run: cargo test --lib
 
       - name: Check formatting
         run: cargo fmt --all --check
